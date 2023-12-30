@@ -2,7 +2,6 @@ package handler
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"net/url"
 	"sportify/golang/domain"
@@ -36,11 +35,9 @@ func CreateSpotifyTrackHandler(c *gin.Context) {
 
 	dataCreds := clientID + ":" + clientSecret
 	encCreds := b64.StdEncoding.EncodeToString([]byte(dataCreds))
-	fmt.Println("creds:", encCreds)
 
 	track, err := getSpotifyData(isrc, encCreds)
-	fmt.Println("err : ", err)
-	fmt.Println("track ;", track)
+
 	if err != nil || track == nil {
 		c.IndentedJSON(http.StatusNotFound, gin.H{"error": "spotify data error, please check your credentials"})
 		return
@@ -152,12 +149,10 @@ func getSpotifyData(isrc string, encCreds string) (*dto.Tracks, error) {
 	}
 	req.Header.Add("Authorization", "Bearer "+postResponse.AccessToken)
 	response, _ := client.Do(req)
-	fmt.Println("response code", response.StatusCode)
 	err = json.NewDecoder(response.Body).Decode(&spotifyResponse)
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println("response code tracks", spotifyResponse.Tracks)
 
 	return &spotifyResponse.Tracks, nil
 

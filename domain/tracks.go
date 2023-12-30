@@ -15,10 +15,3 @@ type Tracks struct {
 	URI                string       `db:"uri"`
 	Artist             []dto.Artist `json:"artist"`
 }
-
-// type Artist struct {
-// 	HRef string `db:"href"`
-// 	ID   string `db:"id"`
-// 	Name string `db:"name"`
-// 	URI  string `db:"uri"`
-// }
